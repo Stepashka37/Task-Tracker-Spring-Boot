@@ -57,6 +57,29 @@ public class TaskService {
         return taskDao.getEpicById(id);
     }
 
+    public List<Subtask> getEpicSubtasks(int id){
+        return taskDao.getEpicSubtasks(id);
+    }
+
+    public Epic createEpic(Epic epic) {
+        if (epic.getDescription().isEmpty() || epic.getDescription().isBlank()) {
+            epic.setDescription(epic.getName());
+        }
+        return taskDao.createNewEpic(epic);
+    }
+
+    public Epic updateEpic(Epic epic) {
+        return taskDao.updateEpic(epic);
+    }
+
+    public void deleteAllEpics(){
+        taskDao.deleteAllEpics();
+    }
+
+    public void deleteEpicById(int id) {
+        taskDao.deleteEpicById(id);
+    }
+
     /** Subtask functionality */
 
     public List<Subtask> getAllSubtasks()  {
@@ -65,6 +88,25 @@ public class TaskService {
 
     public Subtask getSubtaskById(int id) {
         return taskDao.getSubtaskById(id);
+    }
+
+    public Subtask createSubtask(Subtask subtask) {
+        if (subtask.getDescription().isEmpty() || subtask.getDescription().isBlank()) {
+            subtask.setDescription(subtask.getName());
+        }
+        return taskDao.createNewSubtask(subtask);
+    }
+
+    public Subtask updateSubtask(Subtask subtask) {
+        return taskDao.updateSubtask(subtask);
+    }
+
+    public void deleteAllSubtasks(){
+        taskDao.deleteAllSubtasks();
+    }
+
+    public void deleteSubtaskById(int id) {
+        taskDao.deleteSubtaskById(id);
     }
 
 

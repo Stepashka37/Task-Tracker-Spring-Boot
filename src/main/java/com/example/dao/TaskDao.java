@@ -8,6 +8,7 @@ import com.example.model.Task;
 import com.example.model.Epic;
 import com.example.model.TaskStatus;
 import com.example.model.TaskType;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -94,7 +96,7 @@ public class TaskDao {
     }
 
     public void deleteTaskById(int id) {
-        String sql = "delete from tasks where task_id = ?";
+        String sql = "delete from tasks where task_id = ? and type = 'TASK'";
 
         jdbcTemplate.update(sql, id);
     }
@@ -113,6 +115,76 @@ public class TaskDao {
                 .stream().findAny().orElseThrow(() -> new EpicNotFoundException("Эпик с id " + id + " не найден"));
     }
 
+    public List<Subtask> getEpicSubtasks(int id) {
+        String sql = "select * from tasks where task_id in (select es.subtask_id from epic_subtasks as es join tasks as t on es.subtask_id = t.task_id " +
+                "where es.epic_id = ?)";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeSubtask(rs), id);
+    }
+
+    public Epic createNewEpic(Epic epic) {
+        String sql = "insert into tasks (name, description, status, type, start_time, end_time, duration) " +
+                "values (?,?,?::status,?::type,?,?,?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement stmt = connection.prepareStatement(sql, new String[]{"task_id"});
+            stmt.setString(1, epic.getName());
+            stmt.setString(2, epic.getDescription());
+            stmt.setString(3, epic.getStatus().toString());
+            stmt.setString(4, epic.getType().toString());
+            stmt.setTimestamp(5, Timestamp.valueOf(epic.getStartTime()));
+            stmt.setTimestamp(6, Timestamp.valueOf(epic.getEndTime()));
+            stmt.setLong(7, epic.getDuration());
+            return stmt;
+        }, keyHolder);
+
+        int key = keyHolder.getKey().intValue();
+        epic.setId(key);
+
+        return jdbcTemplate.query("select * from tasks where task_id = ?", (rs, rowNum) -> makeEpic(rs), key)
+                .stream().findAny().orElse(null);
+    }
+
+    public Epic updateEpic(Epic epic) {
+        String sql = "update tasks set " +
+                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TYPE = ?::type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
+                "WHERE TASK_ID = ?";
+
+        int checkNum = jdbcTemplate.update(sql,
+                epic.getName(),
+                epic.getDescription(),
+                epic.getStatus().toString(),
+                epic.getType().toString(),
+                epic.getStartTime(),
+                epic.getEndTime(),
+                epic.getDuration(),
+                epic.getId());
+
+        if (checkNum == 0) {
+            throw new TaskNotFoundException("Эпик с  id \"" + epic.getId() + "\" не найден.");
+        }
+
+        return jdbcTemplate.query("select * from tasks where task_id = ?", (rs, rowNum) -> makeEpic(rs), epic.getId())
+                .stream().findAny().orElse(null);
+    }
+
+    public void deleteAllEpics() {
+        String sql = "delete from tasks WHERE type='EPIC';" +
+                "delete from tasks WHERE type = 'SUBTASK';" +
+                "delete from epic_subtasks";
+
+        jdbcTemplate.update(sql);
+    }
+
+    public void deleteEpicById(int id) {
+        String sql = "delete from tasks where task_id = ? AND type = 'EPIC';" +
+        "delete from tasks where task_id in (select es.subtask_id from epic_subtasks as es join tasks as t on es.subtask_id = t.task_id " +
+        "where es.epic_id = ?);" +
+        "delete from epic_subtasks where epic_id = ?;";
+        jdbcTemplate.update(sql, id, id, id);
+    }
+
     /** Subtask functionality */
 
     public List<Subtask> getAllSubtasks() {
@@ -124,6 +196,72 @@ public class TaskDao {
         String sql = "select * from tasks where task_id = ? AND type = 'SUBTASK'";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeSubtask(rs), id)
                 .stream().findAny().orElseThrow(() -> new SubtaskNotFoundException("Подзадача с id " + id + " не найдена"));
+    }
+
+    public Subtask createNewSubtask(Subtask subtask) {
+        String sql = "insert into tasks (name, description, status, type, start_time, end_time, duration) " +
+                "values (?,?,?::status,?::type,?,?,?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement stmt = connection.prepareStatement(sql, new String[]{"task_id"});
+            stmt.setString(1, subtask.getName());
+            stmt.setString(2, subtask.getDescription());
+            stmt.setString(3, subtask.getStatus().toString());
+            stmt.setString(4, subtask.getType().toString());
+            stmt.setTimestamp(5, Timestamp.valueOf(subtask.getStartTime()));
+            stmt.setTimestamp(6, Timestamp.valueOf(subtask.getEndTime()));
+            stmt.setLong(7, subtask.getDuration());
+            return stmt;
+        }, keyHolder);
+
+        int key = keyHolder.getKey().intValue();
+        subtask.setId(key);
+
+        String sqlForEpicSubtasks = "insert into epic_subtasks(epic_id, subtask_id) " +
+                " values (?, ?)";
+
+        jdbcTemplate.update(sqlForEpicSubtasks, subtask.getEpicId(), subtask.getId());
+
+        return jdbcTemplate.query("select * from tasks where task_id = ?", (rs, rowNum) -> makeSubtask(rs), key)
+                .stream().findAny().orElse(null);
+    }
+
+    public Subtask updateSubtask(Subtask subtask) {
+        String sql = "update tasks set " +
+                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TYPE = ?::type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
+                "WHERE TASK_ID = ?";
+
+        int checkNum = jdbcTemplate.update(sql,
+                subtask.getName(),
+                subtask.getDescription(),
+                subtask.getStatus().toString(),
+                subtask.getType().toString(),
+                subtask.getStartTime(),
+                subtask.getEndTime(),
+                subtask.getDuration(),
+                subtask.getId());
+
+        if (checkNum == 0) {
+            throw new TaskNotFoundException("Подзадача с  id \"" + subtask.getId() + "\" не найдена.");
+        }
+
+        return jdbcTemplate.query("select * from tasks where task_id = ?", (rs, rowNum) -> makeSubtask(rs), subtask.getId())
+                .stream().findAny().orElse(null);
+    }
+
+    public void deleteAllSubtasks() {
+        String sql = "delete from tasks WHERE type = 'SUBTASK';" +
+                "delete from epic_subtasks";
+
+        jdbcTemplate.update(sql);
+    }
+
+    public void deleteSubtaskById(int id) {
+        String sql = "delete from tasks where task_id = ? AND type = 'SUBTASK';" +
+                "delete from epic_subtasks where subtask_id =?";
+        jdbcTemplate.update(sql, id, id);
     }
 
 
@@ -196,6 +334,23 @@ public class TaskDao {
         subtaskBuilt.setEpicId(epicId);
         return subtaskBuilt;
     }
+
+    /*private void addSubtasks(Epic epic) {
+        String sqlQueryForSubtasks = "merge into tasks (name, description, status, type, start_time, end_time, duration) " +
+                "values (?,?,?::status,?::type,?,?,?)";
+        List<Subtask> genres = new ArrayList<>(epic.getSubtasks());
+        jdbcTemplate.batchUpdate(sqlQueryForSubtasks, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                preparedStatement.setString(1, genres.get(i).getId());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return genres.size();
+            }
+        });
+    }*/
 
 
 

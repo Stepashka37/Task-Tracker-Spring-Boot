@@ -89,33 +89,39 @@ public class TaskController {
         return taskService.getEpicById(id);
     }
 
-    /*
-    @PostMapping("/epic")
-    public Epic createEpic(@RequestBody Epic epic) {
-        Epic newEpic = taskService.createNewEpic();
-        log.info("Создали эпик с id{}", newEpic.getId());
-        return taskService.createNewEpic();
+    @GetMapping("/epic/subtasks")
+    public List<Subtask> getEpicSubtaskById(@RequestParam int id) {
+        log.info("Получили все подзадачи эпика с id{}", id);
+        return taskService.getEpicSubtasks(id);
     }
 
-    @PutMapping("/epic/{id}")
-    public Epic updateEpic(@PathVariable int id, Epic epic) {
-        log.info("Обновили эпик с id{}", id);
-        return taskService.updateEpic(id);
+
+    @PostMapping("/epic")
+    public Epic createEpic(@Valid @RequestBody Epic epic) {
+        Epic newEpic = taskService.createEpic(epic);
+        log.info("Создали эпик с id{}", newEpic.getId());
+        return newEpic;
+    }
+
+    @PutMapping("/epic")
+    public Epic updateEpic(@Valid @RequestBody Epic epic) {
+        log.info("Обновили эпик с id{}", epic.getId());
+        return taskService.updateEpic(epic);
     }
 
     @DeleteMapping("/epic")
     public void deleteAllEpics(){
         log.info("Удалили все эпики");
-        return taskService.deleteAllEpics();
+       taskService.deleteAllEpics();
     }
 
     @DeleteMapping("/epic/{id}")
     public void deleteEpicById(@PathVariable int id) {
         log.info("Удалили эпик с id{}", id);
-        return taskService.deleteEpicById(id);
+        taskService.deleteEpicById(id);
     }
 
-    *//** Functional for subtasks */
+    /** Functional for subtasks */
 
     @GetMapping("/subtask")
     public List<Subtask> getAllSubtasks(){
@@ -129,36 +135,30 @@ public class TaskController {
         return taskService.getSubtaskById(id);
     }
 
-    /*
-    @GetMapping("/subtask/epic/{id}")
-    public List<Subtask> getEpicSubtaskById(@PathVariable int id) {
-        log.info("Получили все подзадачи эпика с id{}", id);
-        return taskService.getEpicSubtasksById(id);
-    }
 
     @PostMapping("/subtask")
-    public Subtask createSubtask(@RequestBody Subtask subtask) {
-        Subtask newSubtask = taskService.createNewSubtask();
+    public Subtask createSubtask(@Valid @RequestBody Subtask subtask) {
+        Subtask newSubtask = taskService.createSubtask(subtask);
         log.info("Создали подзадачу с id{}", newSubtask.getId());
         return newSubtask;
     }
 
-    @PutMapping("/subtask/{id}")
-    public Subtask updateSubtask(@PathVariable int id, Subtask subtask) {
-        log.info("Обновили подзадачу с id{}", id);
-        return taskService.updateSubtask(id);
+    @PutMapping("/subtask")
+    public Subtask updateSubtask(@Valid @RequestBody Subtask subtask) {
+        log.info("Обновили подзадачу с id{}", subtask.getId());
+        return taskService.updateSubtask(subtask);
     }
 
     @DeleteMapping("/subtask")
     public void deleteAllSubtasks(){
         log.info("Удалили все подзадачи");
-        return taskService.deleteAllSubtasks();
+        taskService.deleteAllSubtasks();
     }
 
     @DeleteMapping("/subtask/{id}")
     public void deleteSubtaskById(@PathVariable int id) {
         log.info("Удалили подзадачу с id{}", id);
-        return taskService.deleteSubtaskById(id);
-    }*/
+        taskService.deleteSubtaskById(id);
+    }
 
 }
