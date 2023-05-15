@@ -7,10 +7,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import java.lang.annotation.Inherited;
 import java.time.LocalDateTime;
 
 @SuperBuilder
 public class Subtask extends Task {
+
+    @NotNull
+    @Positive
     protected int epicId;
 
 

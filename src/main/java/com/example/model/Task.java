@@ -19,19 +19,19 @@ public class Task {
     @Size(min = 0, max = 500)
     protected String description;
 
-    @NotBlank
+    @NotNull
     protected TaskStatus status;
 
-    @NotBlank
+    @NotNull
     protected TaskType type;
 
-    @FutureOrPresent(message = "Время начала задачи не может быть в прошлом")
+    @NotNull
     protected LocalDateTime startTime;
 
     @Positive
     protected long duration;
 
-    @FutureOrPresent(message = "Время окончания задачи не может быть в прошлом")
+    @NotNull
     protected LocalDateTime endTime;
 
     public LocalDateTime getStartTime() {

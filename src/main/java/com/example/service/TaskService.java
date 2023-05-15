@@ -94,10 +94,12 @@ public class TaskService {
         if (subtask.getDescription().isEmpty() || subtask.getDescription().isBlank()) {
             subtask.setDescription(subtask.getName());
         }
+        taskDao.getEpicById(subtask.getEpicId());
         return taskDao.createNewSubtask(subtask);
     }
 
     public Subtask updateSubtask(Subtask subtask) {
+        taskDao.getEpicById(subtask.getEpicId());
         return taskDao.updateSubtask(subtask);
     }
 

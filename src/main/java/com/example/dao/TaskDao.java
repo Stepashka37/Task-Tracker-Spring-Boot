@@ -31,19 +31,19 @@ public class TaskDao {
 
     /** Task functionality */
     public List<Task> getAllTasks() {
-        String sql = "select * from tasks where type = 'TASK'";
+        String sql = "select * from tasks where task_type = 'TASK'";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeTask(rs));
     }
 
     public Task getTaskById(int id) {
-        String sql = "select * from tasks where task_id = ? AND type = 'TASK'";
+        String sql = "select * from tasks where task_id = ? AND task_type = 'TASK'";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeTask(rs), id)
                 .stream().findAny().orElseThrow(() -> new TaskNotFoundException("Задача с id " + id + " не найдена"));
     }
 
     public Task createNewTask(Task task) {
-        String sql = "insert into tasks (name, description, status, type, start_time, end_time, duration) " +
-                "values (?,?,?::status,?::type,?,?,?)";
+        String sql = "insert into tasks (name, description, status, task_type, start_time, end_time, duration) " +
+                "values (?,?,?::status,?::task_type,?,?,?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -68,8 +68,8 @@ public class TaskDao {
 
     public Task updateTask(Task task) {
         String sql = "update tasks set " +
-                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TYPE = ?::type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
-                "WHERE TASK_ID = ?";
+                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TASK_TYPE = ?::task_type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
+                "WHERE (TASK_ID = ? AND TASK_TYPE = 'TASK')";
 
         int checkNum = jdbcTemplate.update(sql,
                 task.getName(),
@@ -90,13 +90,13 @@ public class TaskDao {
     }
 
     public void deleteAllTasks() {
-        String sql = "delete from tasks WHERE type='TASK'";
+        String sql = "delete from tasks WHERE task_type='TASK'";
 
         jdbcTemplate.update(sql);
     }
 
     public void deleteTaskById(int id) {
-        String sql = "delete from tasks where task_id = ? and type = 'TASK'";
+        String sql = "delete from tasks where task_id = ? and task_type = 'TASK'";
 
         jdbcTemplate.update(sql, id);
     }
@@ -105,12 +105,12 @@ public class TaskDao {
     /** Epic functionality */
 
     public List<Epic> getAllEpics() {
-        String sql = "select * from tasks where type = 'EPIC'";
+        String sql = "select * from tasks where task_type = 'EPIC'";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeEpic(rs));
     }
 
     public Epic getEpicById(int id) {
-        String sql = "select * from tasks where task_id = ? AND type = 'EPIC'";
+        String sql = "select * from tasks where task_id = ? AND task_type = 'EPIC'";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeEpic(rs), id)
                 .stream().findAny().orElseThrow(() -> new EpicNotFoundException("Эпик с id " + id + " не найден"));
     }
@@ -122,8 +122,8 @@ public class TaskDao {
     }
 
     public Epic createNewEpic(Epic epic) {
-        String sql = "insert into tasks (name, description, status, type, start_time, end_time, duration) " +
-                "values (?,?,?::status,?::type,?,?,?)";
+        String sql = "insert into tasks (name, description, status, task_type, start_time, end_time, duration) " +
+                "values (?,?,?::status,?::task_type,?,?,?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -148,8 +148,8 @@ public class TaskDao {
 
     public Epic updateEpic(Epic epic) {
         String sql = "update tasks set " +
-                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TYPE = ?::type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
-                "WHERE TASK_ID = ?";
+                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TASK_TYPE = ?::task_type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
+                "WHERE (TASK_ID = ? AND TYPE = 'EPIC')";
 
         int checkNum = jdbcTemplate.update(sql,
                 epic.getName(),
@@ -170,15 +170,15 @@ public class TaskDao {
     }
 
     public void deleteAllEpics() {
-        String sql = "delete from tasks WHERE type='EPIC';" +
-                "delete from tasks WHERE type = 'SUBTASK';" +
+        String sql = "delete from tasks WHERE task_type='EPIC';" +
+                "delete from tasks WHERE task_type = 'SUBTASK';" +
                 "delete from epic_subtasks";
 
         jdbcTemplate.update(sql);
     }
 
     public void deleteEpicById(int id) {
-        String sql = "delete from tasks where task_id = ? AND type = 'EPIC';" +
+        String sql = "delete from tasks where task_id = ? AND task_type = 'EPIC';" +
         "delete from tasks where task_id in (select es.subtask_id from epic_subtasks as es join tasks as t on es.subtask_id = t.task_id " +
         "where es.epic_id = ?);" +
         "delete from epic_subtasks where epic_id = ?;";
@@ -188,19 +188,19 @@ public class TaskDao {
     /** Subtask functionality */
 
     public List<Subtask> getAllSubtasks() {
-        String sql = "select * from tasks where type = 'SUBTASK'";
+        String sql = "select * from tasks where task_type = 'SUBTASK'";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeSubtask(rs));
     }
 
     public Subtask getSubtaskById(int id) {
-        String sql = "select * from tasks where task_id = ? AND type = 'SUBTASK'";
+        String sql = "select * from tasks where task_id = ? AND task_type = 'SUBTASK'";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeSubtask(rs), id)
                 .stream().findAny().orElseThrow(() -> new SubtaskNotFoundException("Подзадача с id " + id + " не найдена"));
     }
 
     public Subtask createNewSubtask(Subtask subtask) {
-        String sql = "insert into tasks (name, description, status, type, start_time, end_time, duration) " +
-                "values (?,?,?::status,?::type,?,?,?)";
+        String sql = "insert into tasks (name, description, status, task_type, start_time, end_time, duration) " +
+                "values (?,?,?::status,?::task_type,?,?,?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -229,9 +229,10 @@ public class TaskDao {
     }
 
     public Subtask updateSubtask(Subtask subtask) {
+
         String sql = "update tasks set " +
-                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TYPE = ?::type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
-                "WHERE TASK_ID = ?";
+                "NAME = ?, DESCRIPTION = ?, STATUS = ?::status, TASK_TYPE = ?::task_type, START_TIME = ?, END_TIME = ?, DURATION = ? " +
+                "WHERE (TASK_ID = ? AND type = 'SUBTASK')";
 
         int checkNum = jdbcTemplate.update(sql,
                 subtask.getName(),
@@ -244,7 +245,7 @@ public class TaskDao {
                 subtask.getId());
 
         if (checkNum == 0) {
-            throw new TaskNotFoundException("Подзадача с  id \"" + subtask.getId() + "\" не найдена.");
+            throw new SubtaskNotFoundException("Подзадача с  id \"" + subtask.getId() + "\" не найдена.");
         }
 
         return jdbcTemplate.query("select * from tasks where task_id = ?", (rs, rowNum) -> makeSubtask(rs), subtask.getId())
@@ -252,14 +253,14 @@ public class TaskDao {
     }
 
     public void deleteAllSubtasks() {
-        String sql = "delete from tasks WHERE type = 'SUBTASK';" +
+        String sql = "delete from tasks WHERE task_type = 'SUBTASK';" +
                 "delete from epic_subtasks";
 
         jdbcTemplate.update(sql);
     }
 
     public void deleteSubtaskById(int id) {
-        String sql = "delete from tasks where task_id = ? AND type = 'SUBTASK';" +
+        String sql = "delete from tasks where task_id = ? AND task_type = 'SUBTASK';" +
                 "delete from epic_subtasks where subtask_id =?";
         jdbcTemplate.update(sql, id, id);
     }
@@ -272,7 +273,7 @@ public class TaskDao {
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
                 .status(TaskStatus.valueOf(rs.getString("status")))
-                .type(TaskType.valueOf(rs.getString("type")))
+                .type(TaskType.valueOf(rs.getString("task_type")))
                 .startTime((rs.getTimestamp("start_time")).toLocalDateTime())
                 .endTime((rs.getTimestamp("end_time")).toLocalDateTime())
                 .duration(rs.getLong("duration"))
@@ -287,7 +288,7 @@ public class TaskDao {
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
                 .status(TaskStatus.valueOf(rs.getString("status")))
-                .type(TaskType.valueOf(rs.getString("type")))
+                .type(TaskType.valueOf(rs.getString("task_type")))
                 .startTime((rs.getTimestamp("start_time")).toLocalDateTime())
                 .endTime((rs.getTimestamp("end_time")).toLocalDateTime())
                 .duration(rs.getLong("duration"))
@@ -305,7 +306,7 @@ public class TaskDao {
                                 rss.getString("name"),
                                 rss.getString("description"),
                                 TaskStatus.valueOf(rss.getString("status")),
-                                TaskType.valueOf(rss.getString("type")),
+                                TaskType.valueOf(rss.getString("task_type")),
                                 LocalDateTime.from((rss.getTimestamp("start_time")).toLocalDateTime()),
                                 rss.getLong("duration"),
                                 LocalDateTime.from((rss.getTimestamp("end_time")).toLocalDateTime()),
@@ -323,15 +324,15 @@ public class TaskDao {
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
                 .status(TaskStatus.valueOf(rs.getString("status")))
-                .type(TaskType.valueOf(rs.getString("type")))
+                .type(TaskType.valueOf(rs.getString("task_type")))
                 .startTime((rs.getTimestamp("start_time")).toLocalDateTime())
                 .endTime((rs.getTimestamp("end_time")).toLocalDateTime())
                 .duration(rs.getLong("duration"))
                 .build();
 
-        int epicId = jdbcTemplate.queryForObject("select epic_id from epic_subtasks where subtask_id = ?", new Object[]{subtaskBuilt.getId()}, Integer.class);
+        //int epicId = jdbcTemplate.queryForObject("select epic_id from epic_subtasks where subtask_id = ?", new Object[]{subtaskBuilt.getId()}, Integer.class);
 
-        subtaskBuilt.setEpicId(epicId);
+        //subtaskBuilt.setEpicId(epicId);
         return subtaskBuilt;
     }
 

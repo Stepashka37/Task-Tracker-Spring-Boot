@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import model.Subtask;*/
 import com.example.model.Task;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.service.TaskService;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/tasks")
+@Validated
 public class TaskController {
 
     private final TaskService taskService;
@@ -51,7 +53,7 @@ public class TaskController {
     }
 
     @PostMapping("/task")
-    public Task createTask(@Valid  @RequestBody Task task) {
+    public Task createTask(@Valid @RequestBody Task task) {
         Task newTask = taskService.createTask(task);
         log.info("Создали задачу с id{}", newTask.getId());
         return newTask;
@@ -105,8 +107,9 @@ public class TaskController {
 
     @PutMapping("/epic")
     public Epic updateEpic(@Valid @RequestBody Epic epic) {
+        Epic epicUpd = taskService.updateEpic(epic);
         log.info("Обновили эпик с id{}", epic.getId());
-        return taskService.updateEpic(epic);
+        return epicUpd;
     }
 
     @DeleteMapping("/epic")
@@ -145,8 +148,9 @@ public class TaskController {
 
     @PutMapping("/subtask")
     public Subtask updateSubtask(@Valid @RequestBody Subtask subtask) {
+        Subtask subtaskUpd = taskService.updateSubtask(subtask);
         log.info("Обновили подзадачу с id{}", subtask.getId());
-        return taskService.updateSubtask(subtask);
+        return subtaskUpd;
     }
 
     @DeleteMapping("/subtask")
