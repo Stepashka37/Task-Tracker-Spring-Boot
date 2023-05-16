@@ -2,11 +2,12 @@ package com.example.controller;
 
 import com.example.model.Epic;
 import com.example.model.Subtask;
+import com.example.service.EpicService;
+import com.example.service.SubtaskService;
 import lombok.extern.slf4j.Slf4j;
 /*import model.Epic;
 import model.Subtask;*/
 import com.example.model.Task;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.service.TaskService;
@@ -21,9 +22,13 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final EpicService epicService;
+    private final SubtaskService subtaskService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, EpicService epicService, SubtaskService subtaskService) {
         this.taskService = taskService;
+        this.epicService = epicService;
+        this.subtaskService = subtaskService;
     }
 
     /*@GetMapping
@@ -38,23 +43,23 @@ public class TaskController {
         return historyService.getHistory();
     }*/
 
-    /** Functional for tasks */
+    /** FUNCTIONAL FOR TASKS */
 
     @GetMapping("/task")
     public List<Task> getAllTasks(){
         log.info("Получили список всех задач");
-        return taskService.getAllTasks();
+        return taskService.getAll();
     }
 
     @GetMapping("/task/{id}")
     public Task getTaskById(@PathVariable int id) {
         log.info("Получили задачу с id{}", id);
-        return taskService.getTaskById(id);
+        return taskService.getById(id);
     }
 
     @PostMapping("/task")
     public Task createTask(@Valid @RequestBody Task task) {
-        Task newTask = taskService.createTask(task);
+        Task newTask = taskService.create(task);
         log.info("Создали задачу с id{}", newTask.getId());
         return newTask;
     }
@@ -62,52 +67,46 @@ public class TaskController {
     @PutMapping("/task")
     public Task updateTask(@Valid @RequestBody Task task) {
         log.info("Обновили задачу с id{}", task.getId());
-        return taskService.updateTask(task);
+        return taskService.update(task);
     }
 
     @DeleteMapping("/task")
     public void deleteAllTasks(){
         log.info("Удалили все задачи");
-        taskService.deleteAllTasks();
+        taskService.deleteAll();
     }
 
     @DeleteMapping("/task/{id}")
     public void deleteTaskById(@PathVariable int id) {
         log.info("Удалили задачу с id{}", id);
-        taskService.deleteTaskById(id);
+        taskService.deleteById(id);
     }
 
-    /** Functional for epics */
+    /** FUNCTIONAL FOR EPICS */
 
     @GetMapping("/epic")
     public List<Epic> getAllEpics(){
         log.info("Получили список всех эпиков");
-        return taskService.getAllEpics();
+        return epicService.getAll();
     }
 
     @GetMapping("/epic/{id}")
     public Epic getEpicById(@PathVariable int id) {
         log.info("Получили эпик с id{}", id);
-        return taskService.getEpicById(id);
-    }
-
-    @GetMapping("/epic/subtasks")
-    public List<Subtask> getEpicSubtaskById(@RequestParam int id) {
-        log.info("Получили все подзадачи эпика с id{}", id);
-        return taskService.getEpicSubtasks(id);
+        return epicService.getById(id);
     }
 
 
     @PostMapping("/epic")
     public Epic createEpic(@Valid @RequestBody Epic epic) {
-        Epic newEpic = taskService.createEpic(epic);
+        Epic newEpic = epicService.create(epic);
         log.info("Создали эпик с id{}", newEpic.getId());
         return newEpic;
     }
 
     @PutMapping("/epic")
     public Epic updateEpic(@Valid @RequestBody Epic epic) {
-        Epic epicUpd = taskService.updateEpic(epic);
+        Epic epicUpd = epicService.update(epic);
         log.info("Обновили эпик с id{}", epic.getId());
         return epicUpd;
     }
@@ -115,40 +114,46 @@ public class TaskController {
     @DeleteMapping("/epic")
     public void deleteAllEpics(){
         log.info("Удалили все эпики");
-       taskService.deleteAllEpics();
+       epicService.deleteAll();
     }
 
     @DeleteMapping("/epic/{id}")
     public void deleteEpicById(@PathVariable int id) {
         log.info("Удалили эпик с id{}", id);
-        taskService.deleteEpicById(id);
+        epicService.deleteById(id);
     }
 
-    /** Functional for subtasks */
+    /** FUNCTIONAL FOR SUBTASKS */
 
     @GetMapping("/subtask")
     public List<Subtask> getAllSubtasks(){
         log.info("Получили все подзадачи");
-        return taskService.getAllSubtasks();
+        return subtaskService.getAll();
     }
 
     @GetMapping("/subtask/{id}")
     public Subtask getSubtaskById(@PathVariable int id) {
         log.info("Получили подзадачу с id{}", id);
-        return taskService.getSubtaskById(id);
+        return subtaskService.getById(id);
+    }
+
+    @GetMapping("/epic/subtasks")
+    public List<Subtask> getEpicSubtaskById(@RequestParam int id) {
+        log.info("Получили все подзадачи эпика с id{}", id);
+        return subtaskService.getEpicSubtasks(id);
     }
 
 
     @PostMapping("/subtask")
     public Subtask createSubtask(@Valid @RequestBody Subtask subtask) {
-        Subtask newSubtask = taskService.createSubtask(subtask);
+        Subtask newSubtask = subtaskService.create(subtask);
         log.info("Создали подзадачу с id{}", newSubtask.getId());
         return newSubtask;
     }
 
     @PutMapping("/subtask")
     public Subtask updateSubtask(@Valid @RequestBody Subtask subtask) {
-        Subtask subtaskUpd = taskService.updateSubtask(subtask);
+        Subtask subtaskUpd = subtaskService.update(subtask);
         log.info("Обновили подзадачу с id{}", subtask.getId());
         return subtaskUpd;
     }
@@ -156,13 +161,13 @@ public class TaskController {
     @DeleteMapping("/subtask")
     public void deleteAllSubtasks(){
         log.info("Удалили все подзадачи");
-        taskService.deleteAllSubtasks();
+        subtaskService.deleteAll();
     }
 
     @DeleteMapping("/subtask/{id}")
     public void deleteSubtaskById(@PathVariable int id) {
         log.info("Удалили подзадачу с id{}", id);
-        taskService.deleteSubtaskById(id);
+        subtaskService.deleteById(id);
     }
 
 }

@@ -15,3 +15,7 @@ values ('SUBTASK1 Test', 'SUBTASK1 desc', 'NEW', 'SUBTASK', '2023-05-01 16:00:00
 
 insert into tasks (name, description, status, task_type, start_time, end_time, duration)
 values ('SUBTASK2 Test', 'SUBTASK2 desc', 'NEW', 'SUBTASK', '2023-05-01 16:30:00', '2023-05-01 17:00:00', 30);
+
+insert into epic_subtasks(epic_id, subtask_id)
+values (4, 5),
+       (4, 6);

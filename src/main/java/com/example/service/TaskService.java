@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TaskService {
+public class TaskService extends AbstractService {
     private final TaskDao taskDao;
 
     @Autowired
@@ -20,34 +20,40 @@ public class TaskService {
 
     /** Task functionality */
 
-    public List<Task> getAllTasks()  {
-        return taskDao.getAllTasks();
+    @Override
+    public List<Task> getAll()  {
+        return taskDao.getAll();
     }
 
-    public Task getTaskById(int id) {
-        return taskDao.getTaskById(id);
+    @Override
+    public Task getById(int id) {
+        return taskDao.getById(id);
     }
 
-    public Task createTask(Task task) {
+    @Override
+    public Task create(Task task) {
         if (task.getDescription().isEmpty() || task.getDescription().isBlank()) {
             task.setDescription(task.getName());
         }
-        return taskDao.createNewTask(task);
+        return taskDao.create(task);
     }
 
-    public Task updateTask(Task task) {
-        return taskDao.updateTask(task);
+    @Override
+    public Task update(Task task) {
+        return taskDao.update(task);
     }
 
-    public void deleteAllTasks(){
-        taskDao.deleteAllTasks();
+    @Override
+    public void deleteAll(){
+        taskDao.deleteAll();
     }
 
-    public void deleteTaskById(int id) {
-        taskDao.deleteTaskById(id);
+    @Override
+    public void deleteById(int id) {
+        taskDao.deleteById(id);
     }
 
-    /** Epic functionality */
+    /** Epic functionality *//*
 
     public List<Epic> getAllEpics()  {
         return taskDao.getAllEpics();
@@ -80,7 +86,7 @@ public class TaskService {
         taskDao.deleteEpicById(id);
     }
 
-    /** Subtask functionality */
+    *//** Subtask functionality *//*
 
     public List<Subtask> getAllSubtasks()  {
         return taskDao.getAllSubtasks();
@@ -109,7 +115,7 @@ public class TaskService {
 
     public void deleteSubtaskById(int id) {
         taskDao.deleteSubtaskById(id);
-    }
+    }*/
 
 
 }

@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.40">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>3289</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3402</IntrospectionStateNumber>
       <ServerVersion>15.2</ServerVersion>
       <StartupTime>1684005543</StartupTime>
       <TimeZones>true ACDT
@@ -822,11 +822,11 @@ false Zulu
 13183||10|C|G
 13183||-9223372036854775808|U|G
 13183||10|U|G</Grants>
-      <IntrospectionStateNumber>3289</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3402</IntrospectionStateNumber>
       <ObjectId>16722</ObjectId>
-      <Relations>sequence|table|24804|24821|1
-sequence|table|24805|24821|2
-sequence|table|24826|24827|1
+      <Relations>sequence|table|25006|25007|1
+sequence|table|25017|25018|1
+sequence|table|25028|25029|1
 </Relations>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4242,7 +4242,7 @@ sequence|table|24826|24827|1
     <schema id="267" parent="7" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>3289</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3402</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>518</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4251,8 +4251,8 @@ sequence|table|24826|24827|1
       <Labels>NEW
 IN PROGRESS
 DONE</Labels>
-      <ObjectId>24807</ObjectId>
-      <StateNumber>3271</StateNumber>
+      <ObjectId>24986</ObjectId>
+      <StateNumber>3367</StateNumber>
       <SubCategory>enum</SubCategory>
       <SubKind>enum</SubKind>
       <OwnerName>postgres</OwnerName>
@@ -4261,141 +4261,278 @@ DONE</Labels>
       <Labels>TASK
 SUBTASK
 EPIC</Labels>
-      <ObjectId>24814</ObjectId>
-      <StateNumber>3288</StateNumber>
+      <ObjectId>24994</ObjectId>
+      <StateNumber>3368</StateNumber>
       <SubCategory>enum</SubCategory>
       <SubKind>enum</SubKind>
       <OwnerName>postgres</OwnerName>
     </object-type>
-    <sequence id="270" parent="267" name="epic_subtasks_epic_id_seq">
+    <sequence id="270" parent="267" name="epics_epic_id_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>24804</ObjectId>
-      <StateNumber>3267</StateNumber>
+      <ObjectId>25017</ObjectId>
+      <StateNumber>3388</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <sequence id="271" parent="267" name="epic_subtasks_subtask_id_seq">
+    <sequence id="271" parent="267" name="subtasks_subtask_id_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>24805</ObjectId>
-      <StateNumber>3269</StateNumber>
+      <ObjectId>25028</ObjectId>
+      <StateNumber>3391</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
     <sequence id="272" parent="267" name="tasks_task_id_seq">
       <DataType>integer|0s</DataType>
-      <ObjectId>24826</ObjectId>
-      <StateNumber>3277</StateNumber>
+      <ObjectId>25006</ObjectId>
+      <StateNumber>3373</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <table id="273" parent="267" name="epic_subtasks">
-      <ObjectId>24821</ObjectId>
-      <StateNumber>3273</StateNumber>
+    <table id="273" parent="267" name="epics">
+      <ObjectId>25018</ObjectId>
+      <StateNumber>3393</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="274" parent="267" name="tasks">
-      <ObjectId>24827</ObjectId>
-      <StateNumber>3277</StateNumber>
+    <table id="274" parent="267" name="subtasks">
+      <ObjectId>25029</ObjectId>
+      <StateNumber>3393</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <column id="275" parent="273" name="epic_id">
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>3273</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="276" parent="273" name="subtask_id">
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>3273</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="277" parent="273" name="epic_subtasks_pk">
-      <ColNames>epic_id
-subtask_id</ColNames>
-      <ObjectId>24824</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>3273</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-    </index>
-    <key id="278" parent="273" name="epic_subtasks_pk">
-      <ObjectId>24825</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>3273</StateNumber>
-      <UnderlyingIndexId>24824</UnderlyingIndexId>
-    </key>
-    <column id="279" parent="274" name="task_id">
+    <table id="275" parent="267" name="tasks">
+      <ObjectId>25007</ObjectId>
+      <StateNumber>3373</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <column id="276" parent="273" name="epic_id">
       <DataType>integer|0s</DataType>
       <IdentityKind>by-default</IdentityKind>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>3277</StateNumber>
+      <StateNumber>3388</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="280" parent="274" name="name">
+    <column id="277" parent="273" name="name">
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>3277</StateNumber>
+      <StateNumber>3388</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="281" parent="274" name="description">
+    <column id="278" parent="273" name="description">
       <DataType>varchar(500)|0s</DataType>
       <Position>3</Position>
-      <StateNumber>3277</StateNumber>
+      <StateNumber>3388</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="282" parent="274" name="status">
+    <column id="279" parent="273" name="status">
       <DataType>status|0s</DataType>
       <DefaultExpression>&apos;NEW&apos;::status</DefaultExpression>
       <Position>4</Position>
-      <StateNumber>3277</StateNumber>
-      <TypeId>24807</TypeId>
+      <StateNumber>3388</StateNumber>
+      <TypeId>24986</TypeId>
     </column>
-    <column id="283" parent="274" name="task_type">
-      <DataType>type|0s</DataType>
-      <DefaultExpression>&apos;TASK&apos;::type</DefaultExpression>
+    <column id="280" parent="273" name="task_type">
+      <DataType>task_type|0s</DataType>
+      <DefaultExpression>&apos;EPIC&apos;::task_type</DefaultExpression>
       <Position>5</Position>
-      <StateNumber>3286</StateNumber>
-      <TypeId>24814</TypeId>
+      <StateNumber>3388</StateNumber>
+      <TypeId>24994</TypeId>
     </column>
-    <column id="284" parent="274" name="end_time">
+    <column id="281" parent="273" name="end_time">
       <DataType>timestamp|0s</DataType>
       <Position>6</Position>
-      <StateNumber>3277</StateNumber>
+      <StateNumber>3388</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <column id="285" parent="274" name="duration">
+    <column id="282" parent="273" name="duration">
       <DataType>bigint|0s</DataType>
       <DefaultExpression>&apos;60&apos;::bigint</DefaultExpression>
       <Position>7</Position>
-      <StateNumber>3277</StateNumber>
+      <StateNumber>3388</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="286" parent="274" name="start_time">
+    <column id="283" parent="273" name="start_time">
       <DataType>timestamp|0s</DataType>
       <NotNull>1</NotNull>
       <Position>8</Position>
-      <StateNumber>3277</StateNumber>
+      <StateNumber>3388</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <index id="287" parent="274" name="tasks_pkey">
-      <ColNames>task_id</ColNames>
+    <index id="284" parent="273" name="epics_pkey">
+      <ColNames>epic_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>24835</ObjectId>
+      <ObjectId>25026</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>3277</StateNumber>
+      <StateNumber>3388</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="288" parent="274" name="tasks_pkey">
+    <key id="285" parent="273" name="epics_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>24836</ObjectId>
+      <ObjectId>25027</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>3277</StateNumber>
-      <UnderlyingIndexId>24835</UnderlyingIndexId>
+      <StateNumber>3388</StateNumber>
+      <UnderlyingIndexId>25026</UnderlyingIndexId>
+    </key>
+    <column id="286" parent="274" name="subtask_id">
+      <DataType>integer|0s</DataType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="287" parent="274" name="name">
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="288" parent="274" name="description">
+      <DataType>varchar(500)|0s</DataType>
+      <Position>3</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="289" parent="274" name="status">
+      <DataType>status|0s</DataType>
+      <DefaultExpression>&apos;NEW&apos;::status</DefaultExpression>
+      <Position>4</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>24986</TypeId>
+    </column>
+    <column id="290" parent="274" name="task_type">
+      <DataType>task_type|0s</DataType>
+      <DefaultExpression>&apos;SUBTASK&apos;::task_type</DefaultExpression>
+      <Position>5</Position>
+      <StateNumber>3396</StateNumber>
+      <TypeId>24994</TypeId>
+    </column>
+    <column id="291" parent="274" name="end_time">
+      <DataType>timestamp|0s</DataType>
+      <Position>6</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="292" parent="274" name="duration">
+      <DataType>bigint|0s</DataType>
+      <DefaultExpression>&apos;60&apos;::bigint</DefaultExpression>
+      <Position>7</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="293" parent="274" name="start_time">
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="294" parent="274" name="epic_id">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+      <StateNumber>3391</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="295" parent="274" name="subtasks_epic_id_fk">
+      <ColNames>epic_id</ColNames>
+      <ObjectId>25046</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <RefColNames>epic_id</RefColNames>
+      <RefColPositions>1</RefColPositions>
+      <StateNumber>3401</StateNumber>
+      <RefTableId>25018</RefTableId>
+      <RefTableName>epics</RefTableName>
+      <RefTableKind>table</RefTableKind>
+    </foreign-key>
+    <index id="296" parent="274" name="subtasks_pkey">
+      <ColNames>subtask_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>25037</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3391</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="297" parent="274" name="subtasks_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>25038</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3391</StateNumber>
+      <UnderlyingIndexId>25037</UnderlyingIndexId>
+    </key>
+    <column id="298" parent="275" name="task_id">
+      <DataType>integer|0s</DataType>
+      <IdentityKind>by-default</IdentityKind>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="299" parent="275" name="name">
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="300" parent="275" name="description">
+      <DataType>varchar(500)|0s</DataType>
+      <Position>3</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="301" parent="275" name="status">
+      <DataType>status|0s</DataType>
+      <DefaultExpression>&apos;NEW&apos;::status</DefaultExpression>
+      <Position>4</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>24986</TypeId>
+    </column>
+    <column id="302" parent="275" name="task_type">
+      <DataType>task_type|0s</DataType>
+      <DefaultExpression>&apos;TASK&apos;::task_type</DefaultExpression>
+      <Position>5</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>24994</TypeId>
+    </column>
+    <column id="303" parent="275" name="end_time">
+      <DataType>timestamp|0s</DataType>
+      <Position>6</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="304" parent="275" name="duration">
+      <DataType>bigint|0s</DataType>
+      <DefaultExpression>&apos;60&apos;::bigint</DefaultExpression>
+      <Position>7</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="305" parent="275" name="start_time">
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StateNumber>3373</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <index id="306" parent="275" name="tasks_pkey">
+      <ColNames>task_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>25015</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3373</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="307" parent="275" name="tasks_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>25016</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3373</StateNumber>
+      <UnderlyingIndexId>25015</UnderlyingIndexId>
     </key>
   </database-model>
 </dataSource>
