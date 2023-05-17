@@ -7,15 +7,11 @@ values ('TASK2 Test', 'TASK2 desc', 'NEW', 'TASK', '2023-05-01 14:00:00', '2023-
 insert into tasks (name, description, status, task_type, start_time, end_time, duration)
 values ('TASK3 Test', 'TASK3 desc', 'NEW', 'TASK', '2023-05-01 15:00:00', '2023-05-01 16:00:00', 60);
 
-insert into tasks (name, description, status, task_type, start_time, end_time, duration)
+insert into epics (name, description, status, task_type, start_time, end_time, duration)
 values ('EPIC Test', 'EPIC desc', 'NEW', 'EPIC', '2023-05-01 16:00:00', '2023-05-01 17:00:00', 60);
 
-insert into tasks (name, description, status, task_type, start_time, end_time, duration)
-values ('SUBTASK1 Test', 'SUBTASK1 desc', 'NEW', 'SUBTASK', '2023-05-01 16:00:00', '2023-05-01 16:30:00', 30);
+insert into subtasks (name, description, status, task_type, start_time, end_time, duration, epic_id)
+values ('SUBTASK1 Test', 'SUBTASK1 desc', 'NEW', 'SUBTASK', '2023-05-01 16:00:00', '2023-05-01 16:30:00', 30, 1);
 
-insert into tasks (name, description, status, task_type, start_time, end_time, duration)
-values ('SUBTASK2 Test', 'SUBTASK2 desc', 'NEW', 'SUBTASK', '2023-05-01 16:30:00', '2023-05-01 17:00:00', 30);
-
-insert into epic_subtasks(epic_id, subtask_id)
-values (4, 5),
-       (4, 6);
+insert into subtasks (name, description, status, task_type, start_time, end_time, duration, epic_id)
+values ('SUBTASK2 Test', 'SUBTASK2 desc', 'NEW', 'SUBTASK', '2023-05-01 16:30:00', '2023-05-01 17:00:00', 30, 1);

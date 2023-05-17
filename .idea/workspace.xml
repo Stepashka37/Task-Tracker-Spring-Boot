@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f3904c0-506f-4e12-adc9-6e347c206946" name="Changes" comment="commit #3: set up test database">
+    <list default="true" id="3f3904c0-506f-4e12-adc9-6e347c206946" name="Changes" comment="commit #4: project structure updated - split into 3 tables, repos, services">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714/storage_v2/_src_/database/task_tracker.fl6v6Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714/storage_v2/_src_/database/task_tracker.fl6v6Q/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/TaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dao/TaskDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dao/TaskDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/TaskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TaskTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TaskTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TaskTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TaskDaoTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,21 +68,48 @@
       <recent name="C:\Users\1\dev\Task Tracker Spring Boot\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.TaskTrackerApplication">
-    <configuration name="TaskTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in Task Tracker Spring Boot">
+    <configuration name="All in Task Tracker Spring Boot" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Task Tracker Spring Boot" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TaskTest" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EpicDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Task Tracker Spring Boot" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="EpicDaoTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskTest.getTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SubtaskDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Task Tracker Spring Boot" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TaskTest" />
-      <option name="METHOD_NAME" value="getTest" />
+      <option name="MAIN_CLASS_NAME" value="SubtaskDaoTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SubtaskDaoTest.deleteAllSubtasksAndCheckEpicDeleted" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Task Tracker Spring Boot" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SubtaskDaoTest" />
+      <option name="METHOD_NAME" value="deleteAllSubtasksAndCheckEpicDeleted" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SubtaskDaoTest.deleteByIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Task Tracker Spring Boot" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SubtaskDaoTest" />
+      <option name="METHOD_NAME" value="deleteByIdTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -100,8 +125,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TaskTest" />
-        <item itemvalue="JUnit.TaskTest.getTest" />
+        <item itemvalue="JUnit.All in Task Tracker Spring Boot" />
+        <item itemvalue="JUnit.SubtaskDaoTest.deleteAllSubtasksAndCheckEpicDeleted" />
+        <item itemvalue="JUnit.SubtaskDaoTest" />
+        <item itemvalue="JUnit.SubtaskDaoTest.deleteByIdTest" />
+        <item itemvalue="JUnit.EpicDaoTest" />
       </list>
     </recent_temporary>
   </component>
@@ -123,7 +151,9 @@
       <workItem from="1683977135761" duration="1588000" />
       <workItem from="1684136340067" duration="13720000" />
       <workItem from="1684215870579" duration="6879000" />
-      <workItem from="1684229405369" duration="4034000" />
+      <workItem from="1684229405369" duration="4541000" />
+      <workItem from="1684249044862" duration="4832000" />
+      <workItem from="1684324650824" duration="2217000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit: task, subtask, epics added">
       <created>1683369201025</created>
@@ -146,7 +176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684156765688</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="commit #4: project structure updated - split into 3 tables, repos, services">
+      <created>1684234404740</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1684234404740</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +203,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit: task, subtask, epics added" />
     <MESSAGE value="commit #3: set up test database" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit #3: set up test database" />
+    <MESSAGE value="commit #4: project structure updated - split into 3 tables, repos, services" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit #4: project structure updated - split into 3 tables, repos, services" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -176,7 +214,18 @@
           <line>108</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/dao/SubtaskDao.java</url>
+          <line>108</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Task_Tracker_Spring_Boot$All_in_Task_Tracker_Spring_Boot.ic" NAME="All in Task Tracker Spring Boot Coverage Results" MODIFIED="1684326847670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
