@@ -3,15 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.40">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>3409</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3422</IntrospectionStateNumber>
       <ServerVersion>15.2</ServerVersion>
       <StartupTime>1684248548</StartupTime>
       <TimeZones>true ACDT
@@ -830,7 +822,7 @@ false Zulu
 13183||10|C|G
 13183||-9223372036854775808|U|G
 13183||10|U|G</Grants>
-      <IntrospectionStateNumber>3409</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3422</IntrospectionStateNumber>
       <ObjectId>16722</ObjectId>
       <Relations>sequence|table|25006|25007|1
 sequence|table|25017|25018|1
@@ -4250,7 +4242,7 @@ sequence|table|25028|25029|1
     <schema id="267" parent="7" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>3409</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3422</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>518</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4446,10 +4438,11 @@ EPIC</Labels>
     </column>
     <foreign-key id="295" parent="274" name="subtasks_epic_id_fk">
       <ColNames>epic_id</ColNames>
-      <ObjectId>25051</ObjectId>
+      <ObjectId>25056</ObjectId>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>epic_id</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <StateNumber>3408</StateNumber>
+      <StateNumber>3421</StateNumber>
       <RefTableId>25018</RefTableId>
       <RefTableName>epics</RefTableName>
       <RefTableKind>table</RefTableKind>

@@ -102,12 +102,12 @@ public class EpicDao extends AbstractTaskDAO<Epic, Epic> {
         jdbcTemplate.update(sql, id, id);
     }
     
-    public Epic makeEpic(ResultSet rs) throws SQLException {
+    private Epic makeEpic(ResultSet rs) throws SQLException {
         Epic epicBuilt = Epic.builder()
                 .id(rs.getInt("epic_id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .status(TaskStatus.valueOf(rs.getString("status")))
+                .status(TaskStatus.convert(rs.getString("status")))
                 .type(TaskType.valueOf(rs.getString("task_type")))
                 .startTime((rs.getTimestamp("start_time")).toLocalDateTime())
                 .endTime((rs.getTimestamp("end_time")).toLocalDateTime())
@@ -127,7 +127,7 @@ public class EpicDao extends AbstractTaskDAO<Epic, Epic> {
                                 rss.getInt("subtask_id"),
                                 rss.getString("name"),
                                 rss.getString("description"),
-                                TaskStatus.valueOf(rss.getString("status")),
+                                TaskStatus.convert(rss.getString("status")),
                                 TaskType.valueOf(rss.getString("task_type")),
                                 LocalDateTime.from((rss.getTimestamp("start_time")).toLocalDateTime()),
                                 rss.getLong("duration"),

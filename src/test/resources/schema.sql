@@ -1,6 +1,6 @@
 drop table if exists tasks, epics, subtasks;
 
-create type if not exists status as enum ('NEW', 'IN PROGRESS', 'DONE');
+create type if not exists status as enum ('NEW', 'IN_PROGRESS', 'DONE');
 
 
 create type if not exists task_type as enum ('TASK', 'SUBTASK', 'EPIC');

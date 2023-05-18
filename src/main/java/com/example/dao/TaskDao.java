@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class TaskDao extends AbstractTaskDAO {
     private final JdbcTemplate jdbcTemplate;
 
@@ -112,7 +113,7 @@ public class TaskDao extends AbstractTaskDAO {
                 .id(rs.getInt("task_id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .status(TaskStatus.valueOf(rs.getString("status")))
+                .status(TaskStatus.convert(rs.getString("status")))
                 .type(TaskType.valueOf(rs.getString("task_type")))
                 .startTime((rs.getTimestamp("start_time")).toLocalDateTime())
                 .endTime((rs.getTimestamp("end_time")).toLocalDateTime())

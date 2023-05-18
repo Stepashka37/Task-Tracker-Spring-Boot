@@ -1,10 +1,8 @@
 package com.example.dao;
 
 import com.example.exceptions.SubtaskNotFoundException;
-import com.example.model.Subtask;
-import com.example.model.Task;
-import com.example.model.TaskStatus;
-import com.example.model.TaskType;
+import com.example.model.*;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -14,7 +12,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class SubtaskDao extends AbstractTaskDAO<Subtask, Subtask> {
@@ -68,8 +70,13 @@ public class SubtaskDao extends AbstractTaskDAO<Subtask, Subtask> {
         int key = keyHolder.getKey().intValue();
         subtask.setId(key);
 
-        return jdbcTemplate.query("select * from subtasks where subtask_id = ?", (rs, rowNum) -> makeSubtask(rs), key)
+        Subtask subtaskCreated = jdbcTemplate.query("select * from subtasks where subtask_id = ?", (rs, rowNum) -> makeSubtask(rs), key)
                 .stream().findAny().orElse(null);
+
+        calculateEpicStatus(subtaskCreated.getEpicId());
+        updateTime(subtaskCreated.getEpicId());
+
+        return subtaskCreated;
     }
 
     @Override
@@ -92,14 +99,19 @@ public class SubtaskDao extends AbstractTaskDAO<Subtask, Subtask> {
             throw new SubtaskNotFoundException("Подзадача с  id \"" + subtask.getId() + "\" не найдена.");
         }
 
-        return jdbcTemplate.query("select * from subtasks where subtask_id = ?", (rs, rowNum) -> makeSubtask(rs), subtask.getId())
+        Subtask subtaskUpdated = jdbcTemplate.query("select * from subtasks where subtask_id = ?", (rs, rowNum) -> makeSubtask(rs), subtask.getId())
                 .stream().findAny().orElse(null);
+
+        calculateEpicStatus(subtaskUpdated.getEpicId());
+        updateTime(subtaskUpdated.getEpicId());
+
+        return subtaskUpdated;
     }
 
     @Override
     public void deleteAll() {
         String sql = "delete from subtasks;" +
-                "delete from epics;";
+                "delete from epics where epic_id in (select epic_id from subtasks);";
 
         jdbcTemplate.update(sql);
     }
@@ -119,15 +131,17 @@ public class SubtaskDao extends AbstractTaskDAO<Subtask, Subtask> {
 
             jdbcTemplate.update(sql, id, subtaskToDelete.getEpicId());
         }
+        calculateEpicStatus(subtaskToDelete.getEpicId());
+        updateTime(subtaskToDelete.getEpicId());
     }
 
     
-    public Subtask makeSubtask(ResultSet rs) throws SQLException {
+    private Subtask makeSubtask(ResultSet rs) throws SQLException {
         Subtask subtaskBuilt = Subtask.builder()
                 .id(rs.getInt("subtask_id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .status(TaskStatus.valueOf(rs.getString("status")))
+                .status(TaskStatus.convert(rs.getString("status")))
                 .type(TaskType.valueOf(rs.getString("task_type")))
                 .startTime((rs.getTimestamp("start_time")).toLocalDateTime())
                 .endTime((rs.getTimestamp("end_time")).toLocalDateTime())
@@ -136,5 +150,65 @@ public class SubtaskDao extends AbstractTaskDAO<Subtask, Subtask> {
                 .build();
 
         return subtaskBuilt;
+    }
+
+    private void calculateEpicStatus(int epicId){
+        String sqlForEpicSubtasks = "select * from subtasks where epic_id = ?";
+        Set<TaskStatus> stats = jdbcTemplate.query(sqlForEpicSubtasks, (rs, rowNum) -> makeSubtask(rs), epicId)
+                .stream()
+                .map(x -> x.getStatus())
+                .collect(Collectors.toSet());
+
+        String sqlToSetEpicStatus = "update epics set status=?::status where epic_id=?";
+
+        if (stats.size() == 1 && stats.contains(TaskStatus.NEW)) {
+           jdbcTemplate.update(sqlToSetEpicStatus, TaskStatus.NEW.toString(), epicId);
+        } else if (stats.size() == 1 && stats.contains(TaskStatus.DONE)) {
+            jdbcTemplate.update(sqlToSetEpicStatus, TaskStatus.DONE.toString(), epicId);
+        } else {
+            jdbcTemplate.update(sqlToSetEpicStatus, TaskStatus.IN_PROGRESS.toString(), epicId);
+        }
+    }
+
+    private void updateTime(int epicId){
+
+        Comparator<Subtask> comparator = new Comparator<Subtask>() {
+            @Override
+            public int compare(final Subtask o1, final Subtask o2) {
+
+                if (o1.getStartTime().isBefore(o2.getStartTime())) {
+                    return -1;
+                } else if (o1.getStartTime().isAfter(o2.getStartTime())) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        };
+
+        List<Subtask> epicSubtasks = jdbcTemplate.query("select * from subtasks where epic_id=?", (rs, rowNum) -> makeSubtask(rs), epicId);
+        if (epicSubtasks.isEmpty()) {
+            return;
+        }
+        LocalDateTime startTime = epicSubtasks.stream()
+                .filter(subtask -> subtask.getStartTime() != null)
+                .min(comparator)
+                .get()
+                .getStartTime();
+
+
+        LocalDateTime endTime = epicSubtasks.stream()
+                .filter(subtask -> subtask.getStartTime() != null)
+                .max(comparator)
+                .get()
+                .getEndTime();
+
+
+        long duration = epicSubtasks.stream()
+                .mapToLong(Subtask::getDuration)
+                .sum();
+
+        String sqlToSetEpicTime = "update epics set start_time=?, end_time=?, duration=? where epic_id=?";
+        jdbcTemplate.update(sqlToSetEpicTime, startTime, endTime, duration, epicId);
     }
 }
