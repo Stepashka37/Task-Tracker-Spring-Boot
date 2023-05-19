@@ -4,6 +4,7 @@ import com.example.dao.AbstractTaskDAO;
 import com.example.dao.EpicDao;
 import com.example.model.Epic;
 import com.example.model.Subtask;
+import com.example.model.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,5 +48,10 @@ public class EpicService extends AbstractTaskDAO<Epic, Epic> {
     @Override
     public void deleteById(int id) {
         epicDao.deleteById(id);
+    }
+
+    @Override
+    public List<Epic> getPrioritized(String period, int count) {
+        return null;
     }
 }

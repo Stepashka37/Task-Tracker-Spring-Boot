@@ -13,6 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -123,6 +124,32 @@ public class TaskDaoTest {
         assertEquals(0, taskDao.getAll().size());
     }
 
+    @Test
+    public void getPrioritizedTest(){
+        List<Task> prioritizedTasks = taskDao.getPrioritized("January", 3);
+        assertEquals(6, prioritizedTasks.size());
+        /*assertEquals(1, prioritizedTasks.get(0).getId());
+        assertEquals(2, prioritizedTasks.get(1).getId());
+        assertEquals(3, prioritizedTasks.get(2).getId());
 
+        Task task = Task.builder()
+                .name("TaskCreated")
+                .description("TaskCreated description")
+                .status(TaskStatus.NEW)
+                .type(TaskType.TASK)
+                .startTime(LocalDateTime.of(2023, 05, 01, 11, 00, 00))
+                .endTime(LocalDateTime.of(2023, 05, 01, 12, 00, 00))
+                .duration(60)
+                .build();
+        taskDao.create(task);
+        prioritizedTasks = taskDao.getPrioritized("January", 4);
+        assertEquals(4, prioritizedTasks.get(0).getId());
+        assertEquals(1, prioritizedTasks.get(1).getId());
+        assertEquals(2, prioritizedTasks.get(2).getId());
+        assertEquals(3, prioritizedTasks.get(3).getId());
+*/
+
+
+    }
 
 }

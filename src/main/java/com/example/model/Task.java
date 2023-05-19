@@ -13,25 +13,25 @@ public class Task {
 
     protected int id;
 
-    @NotBlank(message = "Имя не может быть пустым")
+
     protected String name;
 
-    @Size(min = 0, max = 500)
+
     protected String description;
 
-    @NotNull
+
     protected TaskStatus status;
 
-    @NotNull
+
     protected TaskType type;
 
-    @NotNull
+
     protected LocalDateTime startTime;
 
-    @Positive
+
     protected long duration;
 
-    @NotNull
+
     protected LocalDateTime endTime;
 
     public LocalDateTime getStartTime() {
@@ -42,15 +42,6 @@ public class Task {
         return duration;
     }
 
-    /*public Task(int id, String name, String description, TaskStatus status, long duration, LocalDateTime startTime) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.startTime = startTime;
-        this.duration = duration;
-        this.type = TaskType.TASK;
-    } */
 
     public Task(int id, String name, String description,  TaskStatus status, TaskType type, LocalDateTime startTime, long duration, LocalDateTime endTime) {
         this.id = id;

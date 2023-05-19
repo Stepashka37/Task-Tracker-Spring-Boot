@@ -135,7 +135,12 @@ public class SubtaskDao extends AbstractTaskDAO<Subtask, Subtask> {
         updateTime(subtaskToDelete.getEpicId());
     }
 
-    
+    @Override
+    public List<? extends Task> getPrioritized(String period, int count) {
+        return null;
+    }
+
+
     private Subtask makeSubtask(ResultSet rs) throws SQLException {
         Subtask subtaskBuilt = Subtask.builder()
                 .id(rs.getInt("subtask_id"))

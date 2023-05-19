@@ -101,7 +101,12 @@ public class EpicDao extends AbstractTaskDAO<Epic, Epic> {
                 "delete from epics where epic_id = ?;";
         jdbcTemplate.update(sql, id, id);
     }
-    
+
+    @Override
+    public List<? extends Task> getPrioritized(String period, int count) {
+        return null;
+    }
+
     private Epic makeEpic(ResultSet rs) throws SQLException {
         Epic epicBuilt = Epic.builder()
                 .id(rs.getInt("epic_id"))

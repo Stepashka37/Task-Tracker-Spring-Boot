@@ -31,13 +31,13 @@ public class TaskController {
         this.subtaskService = subtaskService;
     }
 
-    /*@GetMapping
-    public List<Task> getPrioritizedTasks() {
+    @GetMapping("/priority")
+    public List<Task> getPrioritizedTasks( @RequestParam String period, @RequestParam (defaultValue = "10") int count ) {
         log.info("Получили список 10 самых приоритетных задач");
-        return taskService.getPrioritizedTasks();
+        return taskService.getPrioritized(period, count);
     }
 
-    @GetMapping("/history")
+    /* @GetMapping("/history")
     public List<Task> getHistory() {
         log.info("Получили историю действий персонала");
         return historyService.getHistory();

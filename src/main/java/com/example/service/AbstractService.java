@@ -19,4 +19,6 @@ public abstract class AbstractService<T extends Task, E extends Task> {
 
     public abstract void deleteById(int id);
 
+    public abstract List<? extends  Task> getPrioritized(String period, int count);
+
 }

@@ -4,6 +4,7 @@ import com.example.dao.SubtaskDao;
 import com.example.dao.SubtaskDao;
 import com.example.model.Subtask;
 import com.example.model.Subtask;
+import com.example.model.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +48,11 @@ public class SubtaskService extends AbstractService<Subtask, Subtask> {
     @Override
     public void deleteById(int id) {
         subtaskDao.deleteById(id);
+    }
+
+    @Override
+    public List<? extends Task> getPrioritized(String period, int count) {
+        return null;
     }
 
     public List<Subtask> getEpicSubtasks(int id){

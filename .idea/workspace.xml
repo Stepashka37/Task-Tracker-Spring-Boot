@@ -4,17 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f3904c0-506f-4e12-adc9-6e347c206946" name="Changes" comment="commit #5: added unit test for dao layer">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714/storage_v2/_src_/database/task_tracker.fl6v6Q/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e22f65fe-aed4-4838-9f3f-fff0f0a35714/storage_v2/_src_/database/task_tracker.fl6v6Q/schema/public.abK9xQ.meta" afterDir="false" />
+    <list default="true" id="3f3904c0-506f-4e12-adc9-6e347c206946" name="Changes" comment="commit #5: added epic status and timelines calc">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/controller/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/controller/TaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dao/AbstractTaskDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dao/AbstractTaskDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dao/EpicDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dao/EpicDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dao/SubtaskDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dao/SubtaskDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dao/TaskDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dao/TaskDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/Epic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/model/Epic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/TaskStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/model/TaskStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/SubtaskDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SubtaskDaoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dto/TaskDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/dto/TaskDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/model/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/AbstractService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/AbstractService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/EpicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/EpicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/SubtaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/SubtaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/service/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TaskDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TaskDaoTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +75,7 @@
       <recent name="C:\Users\1\dev\Task Tracker Spring Boot\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in Task Tracker Spring Boot">
+  <component name="RunManager" selected="JUnit.PrioritizedTaskDaoTest.getPrioritizedTaskTest">
     <configuration name="All in Task Tracker Spring Boot" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Task Tracker Spring Boot" />
       <option name="PACKAGE_NAME" value="" />
@@ -81,41 +84,40 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SubtaskDaoTest.createTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PrioritizedTaskDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Task Tracker Spring Boot" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SubtaskDaoTest" />
-      <option name="METHOD_NAME" value="createTest" />
+      <option name="MAIN_CLASS_NAME" value="PrioritizedTaskDaoTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PrioritizedTaskDaoTest.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Task Tracker Spring Boot" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PrioritizedTaskDaoTest" />
+      <option name="METHOD_NAME" value="contextLoads" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SubtaskDaoTest.deleteAllSubtasksAndCheckEpicDeleted" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PrioritizedTaskDaoTest.getPrioritizedTaskTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Task Tracker Spring Boot" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SubtaskDaoTest" />
-      <option name="METHOD_NAME" value="deleteAllSubtasksAndCheckEpicDeleted" />
+      <option name="MAIN_CLASS_NAME" value="PrioritizedTaskDaoTest" />
+      <option name="METHOD_NAME" value="getPrioritizedTaskTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SubtaskDaoTest.deleteByIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TaskDaoTest.getPrioritizedTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Task Tracker Spring Boot" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SubtaskDaoTest" />
-      <option name="METHOD_NAME" value="deleteByIdTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SubtaskDaoTest.updateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Task Tracker Spring Boot" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SubtaskDaoTest" />
-      <option name="METHOD_NAME" value="updateTest" />
+      <option name="MAIN_CLASS_NAME" value="TaskDaoTest" />
+      <option name="METHOD_NAME" value="getPrioritizedTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -131,11 +133,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PrioritizedTaskDaoTest.getPrioritizedTaskTest" />
+        <item itemvalue="JUnit.PrioritizedTaskDaoTest" />
+        <item itemvalue="JUnit.PrioritizedTaskDaoTest.contextLoads" />
+        <item itemvalue="JUnit.TaskDaoTest.getPrioritizedTest" />
         <item itemvalue="JUnit.All in Task Tracker Spring Boot" />
-        <item itemvalue="JUnit.SubtaskDaoTest.deleteAllSubtasksAndCheckEpicDeleted" />
-        <item itemvalue="JUnit.SubtaskDaoTest.deleteByIdTest" />
-        <item itemvalue="JUnit.SubtaskDaoTest.updateTest" />
-        <item itemvalue="JUnit.SubtaskDaoTest.createTest" />
       </list>
     </recent_temporary>
   </component>
@@ -162,7 +164,8 @@
       <workItem from="1684324650824" duration="2908000" />
       <workItem from="1684334706165" duration="1462000" />
       <workItem from="1684388573283" duration="5045000" />
-      <workItem from="1684393833143" duration="9046000" />
+      <workItem from="1684393833143" duration="11554000" />
+      <workItem from="1684489315150" duration="8030000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit: task, subtask, epics added">
       <created>1683369201025</created>
@@ -199,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684327113009</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="commit #5: added epic status and timelines calc">
+      <created>1684410638114</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1684410638114</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,7 +231,8 @@
     <MESSAGE value="commit #3: set up test database" />
     <MESSAGE value="commit #4: project structure updated - split into 3 tables, repos, services" />
     <MESSAGE value="commit #5: added unit test for dao layer" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit #5: added unit test for dao layer" />
+    <MESSAGE value="commit #5: added epic status and timelines calc" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit #5: added epic status and timelines calc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -236,7 +247,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/dao/SubtaskDao.java</url>
-          <line>155</line>
+          <line>160</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

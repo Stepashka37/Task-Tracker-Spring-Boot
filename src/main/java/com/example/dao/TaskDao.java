@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
@@ -105,6 +106,14 @@ public class TaskDao extends AbstractTaskDAO {
         String sql = "delete from tasks where task_id = ?";
 
         jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public List<Task> getPrioritized(String period, int count){
+        String sql = "select * from tasks " +
+                "order by end_time asc " +
+                "limit ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> makeTask(rs), count);
     }
 
 
